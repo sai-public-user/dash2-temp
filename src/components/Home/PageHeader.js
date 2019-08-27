@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TwoLabelSwitch from '../../common/twoLabelSwitch';
 
 import {
+  manageMetrics,
   manageDays,
   manageSwitchData,
   toggleTableFilter,
@@ -52,13 +53,17 @@ class PageHeader extends Component {
     this.props.manageSwitchData('');
   }
 
+  handleNormalizerChange = () => {
+    this.props.manageMetrics(!this.props.normalize)
+  }
+
   render() {
-    const { classes = {}, Data: { days = [] } } = this.props || {};
+    const { Data: { normalize = false } } = this.props || {};
     return (
       <Header>
           <span><h1>Benefits Structures</h1></span>
           <TableFilters>
-            <TwoLabelSwitch labelA="normalize" labelB="non-normalize" checked={false} name="normalize" onChange={()=>console.log('came')} />
+            <TwoLabelSwitch labelA="Normalize" labelB="Non-Normalize" checked={normalize} name="normalize" onChange={this.handleNormalizerChange} />
               {/* <FormGroup row>
                   <FormControlLabel
                     control={
@@ -105,6 +110,7 @@ const mapStateToProps = (state) => ({
 })
 
 const dispatchToProps = {
+  manageMetrics,
   manageDays,
   manageSwitchData,
   toggleTableFilter,

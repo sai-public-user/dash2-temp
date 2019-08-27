@@ -4,6 +4,7 @@ import {
   REQUEST_UPDATE_SwitchData,
   SUCCESS_UPDATE_SwitchData,
   TOGGLE_TABLE_FILTER,
+  TOGGLE_NORMALIZE_METRICS,
 } from '../actionTypes';
 
 const row = {
@@ -132,6 +133,7 @@ const initalState = {
     maxCompare: 5,
     filterType: '',
     isDownload: false,
+    normalize: false,
 };
 
 const getAllData = (state = initalState, action) => {
@@ -167,6 +169,12 @@ const getAllData = (state = initalState, action) => {
         filterType: payload.filterType,
         isDownload: payload.isDownload,
       }
+    case TOGGLE_NORMALIZE_METRICS:{
+      console.log(payload)
+      return {
+        ...state,
+        normalize: payload.normalize,
+      }}
     default:
       return state;
   }

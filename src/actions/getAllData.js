@@ -4,6 +4,7 @@ import {
     REQUEST_UPDATE_SwitchData,
     SUCCESS_UPDATE_SwitchData,
     TOGGLE_TABLE_FILTER,
+    TOGGLE_NORMALIZE_METRICS,
 } from '../actionTypes';
 
 const manageDays = data => (dispatch) => {
@@ -30,9 +31,15 @@ const toggleTableFilter = (filterType, isDownload) => (dispatch) => {
     }});
 }
 
+const manageMetrics = (normalize) => (dispatch) => {
+    dispatch({ type: TOGGLE_NORMALIZE_METRICS, payload: {
+        normalize
+    }});
+}
 
 export {
     manageDays,
     manageSwitchData,
     toggleTableFilter,
+    manageMetrics,
 };

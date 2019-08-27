@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import Header from './header';
 import Row from './row';
 import './table.css';
@@ -30,9 +31,30 @@ class Table extends Component {
             sortedCol: {},
         };
     }
+    
+    componentWillReceiveProps() {
+        console.log(this.props, this.props.Data.normalize);
+    }
 
     componentDidMount() {
-        const { headers, rows, maxPin = 5, maxCompare = 5 } = this.props;
+        const { headers, rows: rowsData, maxPin = 5, maxCompare = 5, normalize } = this.props;
+        let rows = [];
+        console.log(normalize, this.props);
+        if (!normalize) {
+            rows = Array.isArray(rowsData) && rowsData.map(row => { 
+                let rowData = Object.assign({}, row.normalizedMetrics, row);
+                delete rowData.normalizedMetrics;
+                delete rowData.nonNormalizedMetrics;
+                return rowData;
+            })
+        } else {
+            rows = Array.isArray(rowsData) && rowsData.map(row => {
+                let rowData = Object.assign({}, row.nonNormalizedMetrics, row);
+                delete rowData.normalizedMetrics;
+                delete rowData.nonNormalizedMetrics;
+                return rowData;
+            })
+        }
         this.setState({
             headers,
             rows,
@@ -161,17 +183,17 @@ class Table extends Component {
                             <HeaderData>
                                 <Header sortedCol={sortedCol} onCellClick={this.onCellClick} headers={filteredHeaders} compare={this.compareClicked} hasPinnedColumns={hasPinnedColumns} pinned={pinned} isPinned={this.isPinned} />
                             </HeaderData>
-                        </CustomTable>
-                    </Fragment>
-                    <Fragment className="table-body">
-                        <CustomTable>
-                            <Rows style={{ overflowX: 'visible', overflowY: 'auto' }} ref="tbody" onScroll={() => this.scrolled(this.refs.tbody.scrollTop, 'main')}>
+                            <Rows ref="tbody" onScroll={() => this.scrolled(this.refs.tbody.scrollTop, 'main')}>
                                 {Array.isArray(rows) && rows.map(
                                     (row, i) => <Row checked={checked.length > compareLimit ? checked.slice(0, compareLimit) : checked} checkBoxChange={this.rowCheckBoxChange} row={row} key={i} headers={filteredHeaders} pinned={pinned} />
                                 )}
                             </Rows>
-			            </CustomTable>
+                        </CustomTable>
                     </Fragment>
+                    {/* <Fragment className="table-body">
+                        <CustomTable>
+			            </CustomTable>
+                    </Fragment> */}
                 </div>
                 <DialogTable
                     showCmpDialog={showCmpDialog}
@@ -183,5 +205,12 @@ class Table extends Component {
         );
     }
 }
- 
-export default Table;
+
+const mapStateToProps = (state) => ({
+    Data: state.GetAllData,
+})
+
+const dispatchToProps = {
+};
+
+export default connect(mapStateToProps, dispatchToProps)(Table);

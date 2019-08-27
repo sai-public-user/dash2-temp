@@ -9,8 +9,10 @@ import {
 } from '../../actions/getAllData';
 
 import PageHeader from './PageHeader';
-import Table from '../../common/Table/table';
+// import Table from '../../common/Table/table';
 import TableFilter from './TableFilter';
+import Table from '../../common/CustomTable/table';
+import Data from '../../sample';
 
 const {
     MaindataContainer,
@@ -24,12 +26,14 @@ class Home extends Component {
     }
 
     render() {
+      console.log(this.props.normalize, 'index')
         return (
             <Fragment>
               <PageHeader />
               <MaindataContainer>
                 <TableContainer>
-                  <Table hasPinnedColumns hasCompare hasCheckBox />
+                  <Table headers={Data.headers} rows={Data.rowsData} normalize={this.props.normalize === true} />
+                  {/* <Table hasPinnedColumns hasCompare hasCheckBox /> */}
                 </TableContainer>
               </MaindataContainer>
               <TableFilter />
@@ -39,7 +43,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  Data: state.GetAllData,
+  normalize: state.GetAllData.normalize,
   table: state.table,
 })
 

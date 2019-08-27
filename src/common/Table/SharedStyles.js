@@ -200,6 +200,7 @@ const SelectFileType = styled.div `
 const TableContainer = styled.div `
     display: flex;
     height: 90vh;
+    width: 100%;
 `;
 //overflow: scroll !important;
 
