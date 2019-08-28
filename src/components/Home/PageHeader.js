@@ -63,7 +63,7 @@ class PageHeader extends Component {
       <Header>
           <span><h1>Benefits Structures</h1></span>
           <TableFilters>
-            <TwoLabelSwitch labelA="Normalize" labelB="Non-Normalize" checked={normalize} name="normalize" onChange={this.handleNormalizerChange} />
+            {/* <TwoLabelSwitch labelA="Normalize" labelB="Non-Normalize" checked={normalize} name="normalize" onChange={this.handleNormalizerChange} /> */}
               {/* <FormGroup row>
                   <FormControlLabel
                     control={

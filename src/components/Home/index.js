@@ -26,7 +26,6 @@ class Home extends Component {
     }
 
     render() {
-      console.log(this.props.normalize, 'index')
         return (
             <Fragment>
               <PageHeader />
